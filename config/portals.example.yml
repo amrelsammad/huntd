@@ -1,0 +1,211 @@
+# huntd/config/portals.example.yml
+# Copy this to config/portals.yml and customize.
+# config/portals.yml is gitignored.
+#
+# To add a company, just tell your AI: "Add [Company] to my tracked companies"
+# It will auto-detect the ATS — no need to know Greenhouse vs. Ashby etc.
+
+tracked_companies:
+
+  # ─────────────────────────────────────────────
+  # UAE / KSA — API verified, enabled by default
+  # ─────────────────────────────────────────────
+
+  - name: Careem
+    ats: greenhouse
+    board_slug: careem
+    enabled: true
+
+  - name: Tamara
+    ats: greenhouse
+    board_slug: tamara
+    enabled: true
+
+  - name: Delivery Hero (Talabat)
+    ats: smartrecruiters
+    board_slug: DeliveryHero
+    enabled: true
+
+  # ─────────────────────────────────────────────
+  # UAE / KSA — Ashby boards confirmed, API pending opt-in
+  # Enable when Ashby opens access for these companies
+  # ─────────────────────────────────────────────
+
+  # - name: Tabby
+  #   ats: ashby
+  #   board_slug: tabby
+  #   enabled: false
+
+  # - name: Property Finder
+  #   ats: ashby
+  #   board_slug: propertyfinder
+  #   enabled: false
+
+  # - name: Noon
+  #   ats: ashby
+  #   board_slug: noon
+  #   enabled: false
+
+  # - name: Keeta
+  #   ats: ashby
+  #   board_slug: keeta
+  #   enabled: false
+
+  # - name: Mrsool
+  #   ats: ashby
+  #   board_slug: mrsool
+  #   enabled: false
+
+  # - name: Bayut
+  #   ats: ashby
+  #   board_slug: bayut
+  #   enabled: false
+
+  # - name: Kitopi
+  #   ats: ashby
+  #   board_slug: kitopi
+  #   enabled: false
+
+  # - name: Anghami
+  #   ats: ashby
+  #   board_slug: anghami
+  #   enabled: false
+
+  # - name: Wio Bank
+  #   ats: ashby
+  #   board_slug: wio
+  #   enabled: false
+
+  # - name: LEAN Technologies
+  #   ats: ashby
+  #   board_slug: lean
+  #   enabled: false
+
+  # - name: Jahez
+  #   ats: ashby
+  #   board_slug: jahez
+  #   enabled: false
+
+  # - name: HungerStation
+  #   ats: ashby
+  #   board_slug: hungerstation
+  #   enabled: false
+
+  # - name: Unifonic
+  #   ats: ashby
+  #   board_slug: unifonic
+  #   enabled: false
+
+  # - name: Sary
+  #   ats: ashby
+  #   board_slug: sary
+  #   enabled: false
+
+  # - name: Fetchr
+  #   ats: ashby
+  #   board_slug: fetchr
+  #   enabled: false
+
+  # - name: Yalla Group
+  #   ats: ashby
+  #   board_slug: yallagroup
+  #   enabled: false
+
+  # - name: stc pay
+  #   ats: ashby
+  #   board_slug: stcpay
+  #   enabled: false
+
+  # - name: Mozn
+  #   ats: ashby
+  #   board_slug: mozn
+  #   enabled: false
+
+  # - name: Tameeni
+  #   ats: ashby
+  #   board_slug: tameeni
+  #   enabled: false
+
+  # ─────────────────────────────────────────────
+  # Global — disabled by default (enable if targeting remote or global roles)
+  # ─────────────────────────────────────────────
+
+  - name: Figma
+    ats: greenhouse
+    board_slug: figma
+    enabled: false
+
+  - name: Anthropic
+    ats: greenhouse
+    board_slug: anthropic
+    enabled: false
+
+  - name: Vercel
+    ats: greenhouse
+    board_slug: vercel
+    enabled: false
+
+  - name: Notion
+    ats: ashby
+    board_slug: notion
+    enabled: false
+
+  - name: Linear
+    ats: ashby
+    board_slug: linear
+    enabled: false
+
+  - name: Raycast
+    ats: ashby
+    board_slug: raycast
+    enabled: false
+
+
+filters:
+  title:
+    # Job must match at least one of these keywords (case-insensitive, partial match)
+    required_any:
+      - "Product"
+      - "PM"
+      - "Program Manager"
+    # Job is excluded if it matches any of these
+    excluded:
+      - "Intern"
+      - "Entry Level"
+      - "Junior"
+      - "Marketing"
+      - "Sales"
+      - "Recruiter"
+      - "HR"
+
+  location:
+    # Job must match at least one of these (empty = allow all locations)
+    allow:
+      - "Remote"
+      - "UAE"
+      - "Dubai"
+      - "Abu Dhabi"
+      - "Saudi Arabia"
+      - "Riyadh"
+      # For global roles, add: "United States", "Amsterdam", "Berlin", etc.
+    # Job is excluded if it matches any of these
+    block:
+      - "On-site only"
+
+# Search queries run during /huntd scan inside an AI session (Claude or Gemini).
+# NOT run by the automated cron (scripts/scan.py) — those only hit ATS APIs.
+# Each query is a Google site-filtered search. Source is inferred from the site: domain.
+# Customize role keywords to match your target roles.
+search_queries:
+  # Bayt — dominant MENA job portal
+  - "site:bayt.com \"product manager\" UAE"
+  - "site:bayt.com \"senior product manager\" Dubai"
+  - "site:bayt.com \"head of product\" Saudi Arabia"
+
+  # GulfTalent — professional jobs in GCC
+  - "site:gulftalent.com \"product manager\" UAE"
+  - "site:gulftalent.com \"senior product\" Dubai"
+
+  # LinkedIn — via Google's index (stale by hours but no ToS risk)
+  - "site:linkedin.com/jobs \"product manager\" Dubai"
+  - "site:linkedin.com/jobs \"head of product\" Riyadh"

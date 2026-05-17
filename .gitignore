@@ -1,0 +1,27 @@
+config/profile.yml
+config/portals.yml
+data/seen.json
+data/pipeline.log
+data/pipeline.md
+data/scored.md
+modes/_profile.md
+resume.md
+*.pdf
+*.docx
+__pycache__/
+*.pyc
+.env
+.venv/
+uv.lock
+
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# macOS
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage

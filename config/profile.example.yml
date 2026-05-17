@@ -1,0 +1,60 @@
+# huntd/config/profile.example.yml
+# Copy this to config/profile.yml and fill in your details.
+# profile.yml is gitignored — it contains your Notion token.
+
+candidate:
+  full_name: "Your Name"
+  email: "you@example.com"
+  location: "Dubai, UAE"
+  linkedin: "linkedin.com/in/yourname"
+  timezone: "Asia/Dubai"
+
+notion:
+  token: "ntn_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  database_id: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+targets:
+  roles:
+    - "Product Manager"
+    - "Senior Product Manager"
+    - "Head of Product"
+  seniority: "Senior / Director"
+  years_exp: "5-8 years"
+  locations:
+    - "Remote"
+    - "UAE"
+    - "KSA"
+  industries:
+    - "B2B SaaS"
+    - "Developer Tools"
+    - "AI / ML"
+    - "FinTech"
+
+scoring:
+  min_score_to_push: 6     # Jobs below this score are not pushed to Notion
+  weights:
+    role_match: 40          # % weight — must sum to 100
+    location_match: 20
+    industry_match: 20
+    seniority_match: 10
+    company_quality: 10
+
+deal_breakers:
+  - "Commission-only compensation"
+
+soft_flags:                 # These lower the score by 1-2 points, not auto-dismiss
+  - "Startup with no funding mentioned"
+  - "Vague job description"
+  - "Excessive travel required"
+
+schedule:
+  enabled: false            # Set by /huntd setup or by telling your AI "enable the daily pipeline"
+  time: "21:00"             # 24h format local time — change by telling your AI "change my schedule to 8am"
+  timezone: "Asia/Dubai"  # IANA timezone name
+
+automation:
+  # Optional Gemini API key — used ONLY for scheduled automated scoring.
+  # Interactive scoring (via /huntd score) never uses this key.
+  # Free tier: gemini-1.5-flash allows ~1500 requests/day at no cost.
+  # Get a key at: aistudio.google.com
+  gemini_api_key: ""
