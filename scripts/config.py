@@ -58,6 +58,7 @@ def load_pipeline_urls() -> set:
 def append_to_pipeline(jobs: list[dict]) -> None:
     """Append new job entries to data/pipeline.md."""
     path = ROOT / "data" / "pipeline.md"
+    path.parent.mkdir(exist_ok=True)
     if not path.exists():
         path.write_text("# Pipeline — Discovered Jobs\n\n## Pending\n\n")
 

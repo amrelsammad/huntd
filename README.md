@@ -153,13 +153,13 @@ Run them in sequence. Results flow directly to Notion.
 
 | Platform | Example companies |
 |----------|-----------------|
-| **Greenhouse** | Figma, Anthropic, Vercel, Careem, Tamara |
-| **Ashby** | Notion, Linear, Raycast |
-| **SmartRecruiters** | Delivery Hero / Talabat |
+| **Greenhouse** | Careem, Tamara, OKX, Stripe, ai71 |
+| **Ashby** | Deliveroo UAE, Lean Technologies |
+| **SmartRecruiters** | Talabat (Delivery Hero), Roland Berger, Masdar |
+| **Workable** | Foodics, Salla |
+| **Lever** | (add your own — supported but no UAE/KSA examples yet) |
 
-**MENA companies out of the box:** Careem (Greenhouse), Tamara (Greenhouse), Delivery Hero/Talabat (SmartRecruiters).
-
-Additional UAE/KSA companies on Ashby (Tabby, Noon, Property Finder, Keeta, Mrsool, Bayut, and others) are listed as commented-out entries in `config/portals.example.yml` — they'll be enabled once their Ashby public API access is confirmed.
+**18 UAE/KSA companies pre-loaded** in `config/portals.example.yml`, all verified. See the file for the full list.
 
 ### Job portals (via AI session web search)
 
@@ -250,7 +250,7 @@ Tell your AI in plain language — no config editing:
 
 ## Roadmap
 
-- [ ] More MENA companies on Ashby (Tabby, Noon, Property Finder, Keeta, Mrsool, Bayut, Anghami, Wio Bank, LEAN Technologies — waiting for their API opt-in)
+- [ ] More MENA companies on Ashby (Tabby, Noon, Property Finder, Keeta, Mrsool, Bayut, Anghami — waiting on their public API)
 - [ ] Wuzzuf scraper (Egypt)
 - [ ] Workday / SAP SuccessFactors scraper
 - [ ] Daily email digest of top matches

@@ -20,7 +20,7 @@ Run the ATS scraper and search queries to discover new jobs.
 Steps:
 1. Run the update check (see above)
 2. Run: `uv run python scripts/scan.py`
-   This fetches jobs from `tracked_companies` (Greenhouse, Lever, Ashby, SmartRecruiters) and adds new ones to `data/pipeline.md`.
+   This fetches jobs from `tracked_companies` (Greenhouse, Lever, Ashby, SmartRecruiters, Workable) and adds new ones to `data/pipeline.md`.
 3. Read `config/portals.yml` → `search_queries` section. If present and non-empty:
    For each query string:
    a. Run WebSearch with that query

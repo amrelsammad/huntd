@@ -3,7 +3,7 @@
 
 > huntd works free with Gemini CLI. This file loads it for Claude Code users.
 
-huntd is a terminal job hunting tool. It scans ATS job boards (Greenhouse, Ashby, Lever), scores jobs using in-session AI reasoning (no external API), and pushes curated results to Notion.
+huntd is a terminal job hunting tool. It scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters, Workable), scores jobs using in-session AI reasoning (no external API), and pushes curated results to Notion.
 
 ## How to use
 

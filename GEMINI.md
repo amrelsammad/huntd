@@ -2,7 +2,7 @@
 # huntd — Job Hunting Assistant (Gemini CLI)
 
 huntd is free to use with Gemini CLI (no subscription required).
-It scans ATS job boards (Greenhouse, Ashby, Lever), scores jobs using your AI session, and pushes results to Notion.
+It scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters, Workable), scores jobs using your AI session, and pushes results to Notion.
 
 ## Quickstart (Gemini CLI)
 
