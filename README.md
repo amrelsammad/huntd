@@ -1,7 +1,7 @@
 # /huntd
 
 **Free, open source AI-powered job hunting automation for your job search.**
----
+
 ## What you need before starting
 
 - A **Notion** account (free — [notion.so](https://notion.so))
