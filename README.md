@@ -11,25 +11,6 @@
 
 ---
 
-## Quickstart (Defaulted to Gemini CLI)
-
-```bash
-# 1. Clone and install
-git clone https://github.com/amrelsammad/huntd.git && cd huntd
-curl -LsSf https://astral.sh/uv/install.sh | sh && source ~/.zshrc
-uv sync
-
-# 2. Run setup — drag your resume into the terminal when prompted
-gemini "run /huntd setup"
-
-# 3. Run the pipeline
-gemini "run /huntd scan"    # discover jobs
-gemini "run /huntd score"   # AI scores each job against your profile
-gemini "run /huntd push"    # push top matches to Notion
-```
-
----
-
 ## Step 1 — Set up Notion
 
 ### Duplicate the template
