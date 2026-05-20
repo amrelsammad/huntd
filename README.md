@@ -1,8 +1,6 @@
 # /huntd
 
 **Free, open source AI-powered job hunting automation for your job search.**
-
-/huntd scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters, Workable), scores each opening against your resume using your AI CLI (Claude Code, Codex, Gemini), and pushes the best matches to a the /huntd Notion database — automatically, every day. No more per-job API costs.
 ---
 ## What you need before starting
 
