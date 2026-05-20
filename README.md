@@ -1,4 +1,4 @@
-![image alt] (https://github.com/amrelsammad/huntd/blob/b911a2fdae135f76b3386cecc4e55a42443b9a09/huntd.%20(7).png)
+![image alt](https://github.com/amrelsammad/huntd/blob/b911a2fdae135f76b3386cecc4e55a42443b9a09/huntd.%20(7).png)
 
 # /huntd
 
