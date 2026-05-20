@@ -2,7 +2,7 @@
 
 **Free, AI-powered job hunting automation for your terminal.**
 
-huntd scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters), scores each opening against your resume using your AI coding CLI, and pushes the best matches to a Notion database — automatically, every day. No more per-job API costs.
+huntd scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters, Workable), scores each opening against your resume using your AI coding CLI, and pushes the best matches to a Notion database — automatically, every day. No more per-job API costs.
 
 ---
 
@@ -10,7 +10,7 @@ huntd scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters), scores e
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/huntd-io/huntd.git && cd huntd
+git clone https://github.com/amrelsammad/huntd.git && cd huntd
 curl -LsSf https://astral.sh/uv/install.sh | sh && source ~/.zshrc
 uv sync
 
@@ -84,7 +84,7 @@ Gemini CLI is recommended if you don't have a subscription — it's free with a 
 ## Step 3 — Install huntd
 
 ```bash
-git clone https://github.com/huntd-io/huntd.git
+git clone https://github.com/amrelsammad/huntd.git
 cd huntd
 
 # Install uv (fast Python package manager — run once)
