@@ -1,12 +1,19 @@
 # /huntd
 
-**Free, AI-powered job hunting automation for your terminal.**
+**Free, open source AI-powered job hunting automation for your job search.**
 
-huntd scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters, Workable), scores each opening against your resume using your AI coding CLI, and pushes the best matches to a Notion database — automatically, every day. No more per-job API costs.
+/huntd scans ATS job boards (Greenhouse, Ashby, Lever, SmartRecruiters, Workable), scores each opening against your resume using your AI CLI (Claude Code, Codex, Gemini), and pushes the best matches to a the /huntd Notion database — automatically, every day. No more per-job API costs.
+---
+## What you need before starting
+
+- A **Notion** account (free — [notion.so](https://notion.so))
+- An **AI CLI** — Gemini, Claude Code, or Codex (see Step 2)
+- **Python 3.10+** and **git**
+- Your resume as a **PDF or DOCX** file
 
 ---
 
-## Quickstart
+## Quickstart (Defaulted to Gemini CLI)
 
 ```bash
 # 1. Clone and install
@@ -25,22 +32,13 @@ gemini "run /huntd push"    # push top matches to Notion
 
 ---
 
-## What you need before starting
-
-- A **Notion** account (free — [notion.so](https://notion.so))
-- An **AI CLI** — Gemini, Claude Code, or Codex (see Step 2)
-- **Python 3.10+** and **git**
-- Your resume as a **PDF or DOCX** file
-
----
-
 ## Step 1 — Set up Notion
 
 ### Duplicate the template
 
-We maintain a ready-made Notion database. Duplicate it into your workspace:
+A ready-made Notion database that your opportunities sits in. Duplicate it into your workspace:
 
-**[→ Open the huntd Notion template](https://grey-postage-5c4.notion.site/huntd-35b89f7d7a7a8129a6d3c5e1c782355b)**
+**[→ Open the /huntd Notion template](https://grey-postage-5c4.notion.site/huntd-35b89f7d7a7a8129a6d3c5e1c782355b)**
 
 Click **Duplicate** (top-right) → choose your workspace. Done.
 
@@ -62,20 +60,20 @@ Without this step, huntd will fail with `401 Unauthorized` when pushing jobs.
 The ID is the 32-character string in the URL when you open the database:
 
 ```
-https://www.notion.so/yourworkspace/THIS-IS-YOUR-DATABASE-ID?v=...
+https://www.notion.so/yourworkspace/<THIS-IS-YOUR-DATABASE-ID>?v=...
 ```
 
-You'll enter both the token and database ID during `/huntd setup` — no config editing needed.
+You'll enter both the token and database ID during `/huntd setup`.
 
 ---
 
 ## Step 2 — Choose your AI CLI
 
-| CLI | Cost | Install |
-|-----|------|---------|
-| [Gemini CLI](https://github.com/google-gemini/gemini-cli) (Recommended) | **Free** (Google account) | `npm i -g @google/gemini-cli` then `gemini auth login` |
-| [Claude Code](https://www.anthropic.com/claude-code) | Claude subscription | `npm i -g @anthropic-ai/claude-code` |
-| [Codex CLI](https://github.com/openai/codex) | Usage-based | `npm i -g @openai/codex` |
+| CLI | Cost |
+|-----|------|
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) (Recommended) | **Free** (Google account) |
+| [Claude Code](https://www.anthropic.com/claude-code) | Claude subscription |
+| [Codex CLI](https://github.com/openai/codex) | Usage-based |
 
 Gemini CLI is recommended if you don't have a subscription — it's free with a Google account and requires no API key for interactive use.
 
@@ -101,7 +99,7 @@ uv sync
 
 ## Step 4 — First-time setup
 
-Run from inside the `huntd` directory:
+Run from inside the `/huntd` directory:
 
 ```bash
 gemini "run /huntd setup"   # Gemini CLI
@@ -159,7 +157,7 @@ Run them in sequence. Results flow directly to Notion.
 | **Workable** | Foodics, Salla |
 | **Lever** | (add your own — supported but no UAE/KSA examples yet) |
 
-**18 UAE/KSA companies pre-loaded** in `config/portals.example.yml`, all verified. See the file for the full list.
+**18 UAE/KSA companies pre-loaded**, all verified. See the file for the full list.
 
 ### Job portals (via AI session web search)
 
@@ -201,7 +199,8 @@ Each job is scored 1–10 across five dimensions:
 
 The daily cron runs scan → score → push automatically.
 
-Automated scoring uses the Gemini API. The free tier (Gemini Flash via [AI Studio](https://aistudio.google.com)) allows ~1500 requests/day at no cost. To add your key, tell your AI: `"Add my Gemini API key YOUR_KEY"`. Without it, the daily run will scan and push but skip scoring.
+The daily cron runs without an active AI session, so it needs a free Gemini API key to score jobs automatically. Get one at [AI Studio](https://aistudio.google.com) — no credit card needed. Without it, the daily run will scan and push but skip scoring. Once you have your key, you can tell you AI:  `"Add my Gemini API key YOUR_KEY"`.
+
 
 ---
 
@@ -226,7 +225,7 @@ Tell your AI in plain language — no config editing:
 
 | You say | What changes |
 |---------|-------------|
-| `"Add Stripe to my tracked companies"` | Adds Stripe to `config/portals.yml` |
+| `"Add Talabat to my tracked companies"` | Adds Stripe to `config/portals.yml` |
 | `"Remove Stripe"` | Disables the Stripe entry |
 | `"I'm also open to Director-level roles"` | Updates target roles in `config/profile.yml` |
 | `"Remove fintech from my target industries"` | Updates `config/profile.yml` |
@@ -241,17 +240,14 @@ Tell your AI in plain language — no config editing:
 
 ## What huntd does NOT do (Yet)
 
-- **Auto-apply to jobs** — huntd surfaces opportunities, you decide where to apply
-- **Customize your CV or cover letter** — out of scope
-- **Call any paid AI API during interactive sessions** — all scoring happens inside your existing CLI session
-- **Scrape sites that prohibit it** — Workday, SuccessFactors, and LinkedIn direct scraping are out; those are covered via web search queries instead
-
+- **Auto-apply to jobs** — huntd suports surfacing opportunities at the moment.
+- **Customize your resume or cover letter** — Your resume is used to only generate your profile on huntd.
+- **Call any paid AI API during interactive sessions** — all scoring happens inside your existing CLI session. No cost associated.
 ---
 
 ## Roadmap
 
-- [ ] More MENA companies on Ashby (Tabby, Noon, Property Finder, Keeta, Mrsool, Bayut, Anghami — waiting on their public API)
-- [ ] Wuzzuf scraper (Egypt)
-- [ ] Workday / SAP SuccessFactors scraper
-- [ ] Daily email digest of top matches
+- [ ] More MENA companies
+- [ ] Wuzzuf portal (Egypt)
+- [ ] Workday / SAP SuccessFactors / Oracle Cloud HCM providers
 - [ ] Multi-resume support (different profiles for different role types)
