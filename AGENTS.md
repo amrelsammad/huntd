@@ -14,6 +14,9 @@ It scans ATS job boards, scores jobs in-session, and pushes results to Notion.
 | `/huntd push` | Run `uv run python scripts/push_notion.py` — push to Notion |
 | `/huntd push --dry-run` | Preview push without sending |
 | `/huntd status` | Show pipeline stats |
+| `/huntd schedule enable` | Install a daily cron (scan → score → push) |
+| `/huntd schedule disable` | Remove the daily cron |
+| `/huntd schedule status` | Show whether the schedule is active and at what time |
 | `/huntd update` | `git pull && uv sync` — apply latest changes |
 
 ## Instructions

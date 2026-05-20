@@ -29,6 +29,7 @@ Say these naturally or use the slash format:
 | `/huntd status` | "how many jobs are in the pipeline?" |
 | `/huntd schedule enable` | "run huntd automatically every day" |
 | `/huntd schedule disable` | "turn off the daily schedule" |
+| `/huntd schedule status` | "when does huntd run?" |
 | `/huntd update` | "update huntd" / "get the latest version" |
 
 ## Updating your profile or companies
