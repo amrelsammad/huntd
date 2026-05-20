@@ -11,6 +11,23 @@ from pathlib import Path
 
 import requests
 
+
+def _get_with_retry(url: str, params: dict | None = None, timeout: int = 10) -> requests.Response:
+    for attempt in range(4):
+        try:
+            resp = requests.get(url, params=params, timeout=timeout)
+        except requests.RequestException:
+            raise
+        if resp.status_code == 429:
+            wait = int(resp.headers.get("Retry-After", 5 * (2 ** attempt)))
+            time.sleep(min(wait, 30))
+            continue
+        if resp.status_code >= 500:
+            time.sleep(2 ** attempt)
+            continue
+        return resp
+    return resp
+
 sys.path.insert(0, str(Path(__file__).parent))
 from config import (
     load_portals,
@@ -25,7 +42,7 @@ from config import (
 def fetch_greenhouse(slug: str, company_name: str) -> list[dict]:
     url = f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs"
     try:
-        resp = requests.get(url, timeout=10)
+        resp = _get_with_retry(url, timeout=10)
     except requests.RequestException as e:
         print(f"  [ERROR] Greenhouse {slug}: {e}")
         return []
@@ -42,7 +59,10 @@ def fetch_greenhouse(slug: str, company_name: str) -> list[dict]:
             "title": title,
             "url": url,
             "company": company_name,
-            "location": (j.get("location") or {}).get("name", "") or "",
+            "location": ", ".join(
+                loc.get("name", "") for loc in (j.get("offices") or [])
+                if isinstance(loc, dict) and loc.get("name")
+            ) or (j.get("location") or {}).get("name", ""),
             "source": "Greenhouse",
         })
     return jobs
@@ -51,7 +71,7 @@ def fetch_greenhouse(slug: str, company_name: str) -> list[dict]:
 def fetch_lever(slug: str, company_name: str) -> list[dict]:
     url = f"https://api.lever.co/v0/postings/{slug}"
     try:
-        resp = requests.get(url, timeout=10)
+        resp = _get_with_retry(url, timeout=10)
     except requests.RequestException as e:
         print(f"  [ERROR] Lever {slug}: {e}")
         return []
@@ -77,7 +97,7 @@ def fetch_lever(slug: str, company_name: str) -> list[dict]:
 def fetch_ashby(slug: str, company_name: str) -> list[dict]:
     url = f"https://api.ashbyhq.com/posting-api/job-board/{slug}?includeCompensation=true"
     try:
-        resp = requests.get(url, timeout=10)
+        resp = _get_with_retry(url, timeout=10)
     except requests.RequestException as e:
         print(f"  [ERROR] Ashby {slug}: {e}")
         return []
@@ -106,7 +126,7 @@ def fetch_ashby(slug: str, company_name: str) -> list[dict]:
 def fetch_smartrecruiters(slug: str, company_name: str) -> list[dict]:
     url = f"https://api.smartrecruiters.com/v1/companies/{slug}/postings"
     try:
-        resp = requests.get(url, timeout=10)
+        resp = _get_with_retry(url, timeout=10)
     except requests.RequestException as e:
         print(f"  [ERROR] SmartRecruiters {slug}: {e}")
         return []
@@ -131,11 +151,59 @@ def fetch_smartrecruiters(slug: str, company_name: str) -> list[dict]:
     return jobs
 
 
+def fetch_workable(slug: str, company_name: str) -> list[dict]:
+    primary = f"https://www.workable.com/api/accounts/{slug}"
+    widget  = f"https://apply.workable.com/api/v1/widget/accounts/{slug}"
+    data = None
+    for url in (primary, widget):
+        try:
+            resp = _get_with_retry(url, params={"details": "true"}, timeout=10)
+            if resp.ok:
+                data = resp.json()
+                break
+        except requests.RequestException:
+            continue
+    if data is None:
+        print(f"  [WARN] Workable {slug}: both endpoints failed")
+        return []
+    if isinstance(data, list):
+        jobs = data
+    elif isinstance(data, dict):
+        jobs = data.get("jobs") or data.get("results") or data.get("positions") or []
+    else:
+        jobs = []
+    results = []
+    for j in jobs:
+        if not isinstance(j, dict):
+            continue
+        title = j.get("title") or j.get("full_title") or ""
+        code  = j.get("shortcode") or j.get("code") or j.get("id") or ""
+        job_url = (
+            j.get("url")
+            or j.get("application_url")
+            or j.get("shortlink")
+            or (f"https://apply.workable.com/{slug}/j/{code}/" if code else f"https://apply.workable.com/{slug}/")
+        )
+        if not title or not job_url:
+            continue
+        loc_data = j.get("location") or {}
+        location = ", ".join(str(v) for v in loc_data.values() if v) if isinstance(loc_data, dict) else str(loc_data or "")
+        results.append({
+            "title": title,
+            "url": job_url,
+            "company": company_name,
+            "location": location,
+            "source": "Workable",
+        })
+    return results
+
+
 FETCHERS = {
     "greenhouse": fetch_greenhouse,
     "lever": fetch_lever,
     "ashby": fetch_ashby,
     "smartrecruiters": fetch_smartrecruiters,
+    "workable": fetch_workable,
 }
 
 
@@ -183,7 +251,7 @@ def main() -> None:
     filters = portals.get("filters", {})
 
     console.print(Panel(
-        f"Scanning [bold cyan]{len(companies)}[/] companies across Greenhouse · Ashby · Lever · SmartRecruiters",
+        f"Scanning [bold cyan]{len(companies)}[/] companies across Greenhouse · Ashby · Lever · SmartRecruiters · Workable",
         title="[bold]huntd scan[/]",
         border_style="cyan",
     ))

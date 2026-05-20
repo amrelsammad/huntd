@@ -1,5 +1,6 @@
 config/profile.yml
 config/portals.yml
+MEMORY.md
 data/seen.json
 data/pipeline.log
 data/pipeline.md
@@ -13,7 +14,7 @@ __pycache__/
 .env
 .venv/
 uv.lock
-
+*.csv
 # Python virtual environments
 venv/
 .venv/
