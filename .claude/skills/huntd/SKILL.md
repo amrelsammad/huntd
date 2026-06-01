@@ -62,6 +62,22 @@ Steps:
 1. Run: `uv run python scripts/push_notion.py --dry-run`
 2. Show the preview output
 
+### `/huntd push --obsidian`
+Push scored jobs as local Obsidian markdown notes.
+
+Steps:
+1. Run the update check (see above)
+2. Run: `uv run python scripts/push_obsidian.py`
+3. Report: how many notes were written and to which folder
+4. If `obsidian.vault_path` is not set, tell the user: "Tell me your Obsidian vault path and I'll set it — e.g. 'set my Obsidian vault path to /home/user/MyVault'"
+
+### `/huntd push --obsidian --dry-run`
+Preview Obsidian notes without writing any files.
+
+Steps:
+1. Run: `uv run python scripts/push_obsidian.py --dry-run`
+2. Show the preview table
+
 ### `/huntd status`
 Show pipeline stats.
 

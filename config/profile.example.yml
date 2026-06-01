@@ -52,6 +52,10 @@ schedule:
   time: "21:00"             # 24h format local time — change by telling your AI "change my schedule to 8am"
   timezone: "Asia/Dubai"  # IANA timezone name
 
+obsidian:
+  vault_path: ""            # Absolute path to your Obsidian vault (e.g. /home/user/MyVault)
+  folder: "Jobs"            # Subfolder inside the vault — created automatically if missing
+
 automation:
   # Optional Gemini API key — used ONLY for scheduled automated scoring.
   # Interactive scoring (via /huntd score) never uses this key.

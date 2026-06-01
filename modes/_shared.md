@@ -57,6 +57,34 @@ Properties that push_notion.py expects (exact names):
 | Red Flags | rich_text | any (max 2000 chars) |
 | Link | url | valid URL |
 
+## Obsidian Output
+
+When `obsidian.vault_path` is set in `config/profile.yml`, jobs can be pushed as local markdown notes instead of (or in addition to) Notion. Each note gets:
+
+- **YAML frontmatter** — all structured fields (`job_title`, `company`, `fit_score`, `status`, `work_type`, `location`, `source`, `date_added`, `url`, `tags`). Fully compatible with the Dataview plugin for database-style views.
+- **Markdown body** — Fit Reasons and Red Flags as bullet lists, plus a direct Apply link.
+- **Filename** — `{YYYY-MM-DD} {Company} — {Title}.md`, sanitized for filesystem safety.
+- **Location** — normalized to country name (same logic as Notion push).
+
+Notes are written to `{vault_path}/{folder}/` (default folder: `Jobs`). The folder is created if it does not exist. Running push again overwrites existing notes (keeps them current).
+
+### Obsidian config (profile.yml)
+```yaml
+obsidian:
+  vault_path: "/absolute/path/to/vault"
+  folder: "Jobs"
+```
+
+### Conversational Obsidian updates
+
+| User says | What to do |
+|-----------|-----------|
+| "Set my Obsidian vault path to [path]" | Update `obsidian.vault_path` in `config/profile.yml` |
+| "Push jobs to Obsidian" | Run `uv run python scripts/push_obsidian.py` |
+| "Change my Obsidian folder to [name]" | Update `obsidian.folder` in `config/profile.yml` |
+
+---
+
 ## Global Rules
 - **Never score without reading resume.md** — the resume is the ground truth for fit evaluation.
 - **Never invent skills** the candidate doesn't have. Score what's actually there.

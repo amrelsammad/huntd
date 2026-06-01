@@ -11,6 +11,8 @@
 - **Python 3.10+** and **git**
 - Your resume as a **PDF or DOCX** file
 
+> **Obsidian user?** huntd can also push jobs to a local Obsidian vault — no extra setup required. See [`/huntd push --obsidian`](#obsidian-optional) below.
+
 ---
 
 ## Step 1 — Set up Notion
@@ -109,6 +111,21 @@ Run them in sequence. Results flow directly to Notion.
 
 ---
 
+## Obsidian (optional)
+
+If you use [Obsidian](https://obsidian.md), huntd can write your scored jobs as a markdown table directly to your vault — no account or API key needed.
+
+1. Tell your AI your vault path (once):
+   > `"Set my Obsidian vault path to /path/to/vault"`
+2. Push jobs to Obsidian:
+   ```bash
+   /huntd push --obsidian
+   ```
+
+This writes `Jobs.md` to your vault — all scored jobs in a single table, sorted by fit score, with direct apply links. Re-running overwrites it with the latest results.
+
+---
+
 ## All commands
 
 | Command | What it does |
@@ -118,6 +135,8 @@ Run them in sequence. Results flow directly to Notion.
 | `/huntd score` | AI scores all pending jobs → `data/scored.md` |
 | `/huntd push` | Push scored jobs to Notion |
 | `/huntd push --dry-run` | Preview what would be pushed, without sending anything |
+| `/huntd push --obsidian` | Write scored jobs to a local Obsidian markdown table |
+| `/huntd push --obsidian --dry-run` | Preview Obsidian output without writing any files |
 | `/huntd status` | Show pipeline stats: pending, scored, score distribution |
 | `/huntd update` | Pull latest huntd changes from GitHub + reinstall dependencies |
 | `/huntd schedule enable` | Install a daily cron (scan → score → push) |
