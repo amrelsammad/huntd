@@ -1,14 +1,14 @@
 # huntd — System Context
 
 ## Project Purpose
-huntd discovers job opportunities from ATS job boards, evaluates them against the candidate's profile, and pushes curated results to a Notion database.
+huntd discovers job opportunities from ATS job boards, evaluates them against the candidate's profile, and pushes curated results to Notion or a local Obsidian vault.
 
 ## Key Files (AI reads these)
 - `resume.md` — Candidate's full resume (parsed from PDF/DOCX during setup). **Always read before scoring.**
 - `modes/_profile.md` — Scoring weights, deal-breakers, target archetypes. **Always read before scoring.**
 - `config/profile.yml` — Target roles, locations, seniority. Reference when _profile.md doesn't cover a case.
 - `data/pipeline.md` — Jobs to score (lines with `- [ ]`).
-- `data/scored.md` — Jobs already scored, pending Notion push.
+- `data/scored.md` — Jobs already scored, pending Notion push (or Obsidian).
 
 ## search_queries
 
@@ -56,6 +56,27 @@ Properties that push_notion.py expects (exact names):
 | Fit Reasons | rich_text | any (max 2000 chars) |
 | Red Flags | rich_text | any (max 2000 chars) |
 | Link | url | valid URL |
+
+## Obsidian Output
+
+When `obsidian.vault_path` is set in `config/profile.yml`, jobs can be pushed to a local Obsidian vault instead of (or in addition to) Notion. Output is a single markdown table file — `{vault_path}/{folder}.md` (default: `Jobs.md`) — with all scored jobs sorted by fit score and clickable apply links. Re-running overwrites the file with the latest results.
+
+### Obsidian config (profile.yml)
+```yaml
+obsidian:
+  vault_path: "/absolute/path/to/vault"
+  folder: "Jobs"        # output file will be Jobs.md at the vault root
+```
+
+### Conversational Obsidian updates
+
+| User says | What to do |
+|-----------|-----------|
+| "Set my Obsidian vault path to [path]" | Update `obsidian.vault_path` in `config/profile.yml` |
+| "Push jobs to Obsidian" | Run `uv run python scripts/push_obsidian.py` |
+| "Change my Obsidian folder to [name]" | Update `obsidian.folder` in `config/profile.yml` |
+
+---
 
 ## Global Rules
 - **Never score without reading resume.md** — the resume is the ground truth for fit evaluation.
