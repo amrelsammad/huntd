@@ -12,20 +12,14 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from push_notion import extract_country, parse_scored_md
+from push_notion import (
+    VALID_STATUSES,
+    VALID_WORK_TYPES,
+    extract_country,
+    parse_scored_md,
+)
 
 from config import ROOT, load_profile
-
-VALID_STATUSES = {
-    "New",
-    "Saved",
-    "Applied",
-    "Interviewing",
-    "Offer",
-    "Rejected",
-    "Dismissed",
-}
-VALID_WORK_TYPES = {"Remote", "Hybrid", "On-site", "Unknown"}
 
 
 def _coerce(value: str, valid: set, default: str) -> str:
