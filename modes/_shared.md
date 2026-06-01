@@ -1,14 +1,14 @@
 # huntd — System Context
 
 ## Project Purpose
-huntd discovers job opportunities from ATS job boards, evaluates them against the candidate's profile, and pushes curated results to a Notion database.
+huntd discovers job opportunities from ATS job boards, evaluates them against the candidate's profile, and pushes curated results to Notion or a local Obsidian vault.
 
 ## Key Files (AI reads these)
 - `resume.md` — Candidate's full resume (parsed from PDF/DOCX during setup). **Always read before scoring.**
 - `modes/_profile.md` — Scoring weights, deal-breakers, target archetypes. **Always read before scoring.**
 - `config/profile.yml` — Target roles, locations, seniority. Reference when _profile.md doesn't cover a case.
 - `data/pipeline.md` — Jobs to score (lines with `- [ ]`).
-- `data/scored.md` — Jobs already scored, pending Notion push.
+- `data/scored.md` — Jobs already scored, pending Notion push (or Obsidian).
 
 ## search_queries
 
@@ -59,20 +59,13 @@ Properties that push_notion.py expects (exact names):
 
 ## Obsidian Output
 
-When `obsidian.vault_path` is set in `config/profile.yml`, jobs can be pushed as local markdown notes instead of (or in addition to) Notion. Each note gets:
-
-- **YAML frontmatter** — all structured fields (`job_title`, `company`, `fit_score`, `status`, `work_type`, `location`, `source`, `date_added`, `url`, `tags`). Fully compatible with the Dataview plugin for database-style views.
-- **Markdown body** — Fit Reasons and Red Flags as bullet lists, plus a direct Apply link.
-- **Filename** — `{YYYY-MM-DD} {Company} — {Title}.md`, sanitized for filesystem safety.
-- **Location** — normalized to country name (same logic as Notion push).
-
-Notes are written to `{vault_path}/{folder}/` (default folder: `Jobs`). The folder is created if it does not exist. Running push again overwrites existing notes (keeps them current).
+When `obsidian.vault_path` is set in `config/profile.yml`, jobs can be pushed to a local Obsidian vault instead of (or in addition to) Notion. Output is a single markdown table file — `{vault_path}/{folder}.md` (default: `Jobs.md`) — with all scored jobs sorted by fit score and clickable apply links. Re-running overwrites the file with the latest results.
 
 ### Obsidian config (profile.yml)
 ```yaml
 obsidian:
   vault_path: "/absolute/path/to/vault"
-  folder: "Jobs"
+  folder: "Jobs"        # output file will be Jobs.md at the vault root
 ```
 
 ### Conversational Obsidian updates
